@@ -56,25 +56,37 @@ class Splash(tk.CTk):
         self.after(5_000, self.destroy)
 
     def animations(self):
-        self.gif("Triangle")
+        triangle_objects = []
+        triangle = self.gif("Triangle", triangle_objects)
+        triangle.place(x = 200, y = 70)
+        anim()
+        '''write entire anim func here locally instead of there, make photoobjects self.'''
+        '''
+        triangle2_objects = []
+        triangle2 = self.gif("Triangle", triangle2_objects)
+        triangle2.place(x = 270, y = 70)
+        anim()
+        '''
         
-    def gif(self, path):
+        
+    def gif(self, path, letter_objects):
         file = os.path.join("MAIN", "UI", "assets", "pixel-art", f"{path}.gif")
         file_info = Image.open(file)
         frames = file_info.n_frames
 
-        photoimage_objects = []
+        letter_objects = []
         with Image.open(file) as im:
             for i in range(frames):
                 im.seek(i)
                 im.save(os.path.join("MAIN", "UI", "assets", "pixel-art", path, f"{i}.png"))
                 obj = Image.open(os.path.join("MAIN", "UI", "assets", "pixel-art", path, f"{i}.png"))
                 obj = tk.CTkImage(light_image = obj, dark_image = obj, size = (64, 64))
-                photoimage_objects.append(obj)
+                letter_objects.append(obj)
+        global anim
         
         def anim(current_frame = 0):
             global loop
-            img = photoimage_objects[current_frame]
+            img = letter_objects[current_frame]
             gif_label.configure(image = img)
             current_frame += 1
 
@@ -84,8 +96,9 @@ class Splash(tk.CTk):
             loop = self.after(50, lambda: anim(current_frame))
         
         gif_label = tk.CTkLabel(self, image = None, text = '')
-        gif_label.place(x = 200, y = 70)
-        anim()
+        return gif_label
+        #gif_label.place(x = 200, y = 70)
+        #anim()
         
 
 #__main__#
