@@ -56,67 +56,39 @@ class Splash(tk.CTk):
         self.after(5_000, self.destroy)
 
     def animations(self):
-        '''
-        triangle_objects = []
-        triangle = self.gif("Triangle", triangle_objects)
-        triangle.place(x = 200, y = 70)
-        
-        def T1anim(current_frame = 0):
+
+        def Tanim(object, obj_list, current_frame = 0):
             global loop
-            img = triangle_objects[current_frame]
-            triangle.configure(image = img)
+            img = obj_list[current_frame]
+            object.configure(image = img)
             current_frame += 1
 
             if current_frame == self.frames:
                 return
 
-            loop = self.after(50, lambda: T1anim(current_frame))
-
-
-        T1anim()
-        
-        triangle_objects2 = []
-        triangle2 = self.gif("Triangle", triangle_objects2)
-        triangle2.place(x = 250, y = 70)
-        
-        def T2anim(current_frame = 0):
-            global loop
-            img = triangle_objects2[current_frame]
-            triangle2.configure(image = img)
-            current_frame += 1
-
-            if current_frame == self.frames:
-                return
-
-            loop = self.after(50, lambda: T2anim(current_frame))
-
-
-        T2anim()
-        '''
-
-        def Tanim(o, L, current_frame = 0):
-            global loop
-            img = L[current_frame]
-            o.configure(image = img)
-            current_frame += 1
-
-            if current_frame == self.frames:
-                return
-
-            loop = self.after(50, lambda: Tanim(o, L, current_frame))
+            loop = self.after(53, lambda: Tanim(object, obj_list, current_frame))
 
         triangle_objects = []
         triangle = self.gif("Triangle", triangle_objects)
         triangle.place(x = 200, y = 70)
-        
+
+        def move(object, currentx, currenty):
+            if currentx > 110:
+                currentx -= 1
+                object.place(x = currentx, y = currenty)
+                self.after(3, lambda: move(object, currentx, currenty))
+
         Tanim(triangle, triangle_objects)
-
+        
+        self.after(200, lambda: move(triangle, 200, 70))
+        
+        '''
         triangle_objects2 = []
         triangle2 = self.gif("Triangle", triangle_objects2)
         triangle2.place(x = 250, y = 70)
 
         Tanim(triangle2, triangle_objects2)
-
+        '''
 
     def gif(self, path, letter_objects):
         file = os.path.join("MAIN", "UI", "assets", "pixel-art", f"{path}.gif")
